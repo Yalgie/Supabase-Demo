@@ -29,11 +29,24 @@ export default function Todo({
   };
 
   return (
-    <>
+    <div className="bg-slate-50 mb-4 p-4 rounded-md flex flex-col">
       <p>{todo.content}</p>
-      <p>{todo.completed ? "Yuh" : "Nuh"}</p>
-      <button onClick={handleDelete}>Delete</button>
-      <button onClick={handleToggle}>Toggle</button>
-    </>
+      {/* <p>{todo.completed ? "Yuh" : "Nuh"}</p> */}
+      {/* <span onClick={handleToggle}>Toggle</span> */}
+      <div className="flex w-full justify-between mt-4">
+        <span
+          className="text-emerald-500 self-end uppercase text-sm font-bold cursor-pointer"
+          onClick={handleToggle}
+        >
+          {todo.completed ? "Uncomplete" : "Complete"}
+        </span>
+        <span
+          className="text-red-500 self-end uppercase text-sm font-bold cursor-pointer"
+          onClick={handleDelete}
+        >
+          Delete
+        </span>
+      </div>
+    </div>
   );
 }

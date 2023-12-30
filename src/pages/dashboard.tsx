@@ -1,15 +1,17 @@
 import { supabase } from "@/utils/supabase";
 import { useRouter } from "next/router";
 import { useProtectedPage } from "@/hooks/useProtectedPage";
-import TodoForm from "@/components/forms/Todo";
+import TodoForm from "@/components/Form/Todo";
 import Todo from "@/components/Todo";
 import { useGetTodos } from "@/hooks/useGetTodos";
+import { Button } from "@/components/Form/Button";
+import { Spinner } from "@/components/Spinner";
 
 export default function Dashboard() {
   useProtectedPage();
 
   const router = useRouter();
-  const { todos, refetch: refetchTodos } = useGetTodos();
+  const { todos, isLoading, refetch: refetchTodos } = useGetTodos();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -17,15 +19,31 @@ export default function Dashboard() {
   };
 
   return (
-    <>
-      <button onClick={handleSignOut}>Sign out</button>
+    <div className="flex flex-col">
+      <Button
+        text="Sign Out"
+        onClick={handleSignOut}
+        customClass="bg-red-500 hover:bg-red-400 self-end m-4"
+      />
 
-      {todos &&
-        todos.map((todo) => {
-          return <Todo key={todo.id} todo={todo} refetchTodos={refetchTodos} />;
-        })}
+      <div className="mx-auto w-96">
+        {isLoading && (
+          <div className="flex uppercase font-bold text-sm text-indigo-800 items-center">
+            <span style={{ top: "1px" }} className="mr-2 relative font-sm">
+              Fetching Todos
+            </span>
+            <Spinner />
+          </div>
+        )}
+        {todos &&
+          todos.map((todo) => {
+            return (
+              <Todo key={todo.id} todo={todo} refetchTodos={refetchTodos} />
+            );
+          })}
 
-      <TodoForm refetchTodos={refetchTodos} />
-    </>
+        <TodoForm refetchTodos={refetchTodos} />
+      </div>
+    </div>
   );
 }

@@ -27,6 +27,7 @@
     "@trpc/next": "^10.44.1",
     "@trpc/react-query": "^10.44.1",
     "@trpc/server": "^10.44.1",
+    "classnames": "^2.5.1",
     "jsonwebtoken": "^9.0.2",
     "next": "14.0.4",
     "prisma": "^5.7.1",
